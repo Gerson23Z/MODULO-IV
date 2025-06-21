@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ejercicios JS</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  section { margin-bottom: 40px; }
+  button { margin-top: 10px; }
+  input, select { margin-top: 5px; padding: 5px; font-size: 1rem; }
+  .resultado { margin-top: 10px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h1>Ejercicios JavaScript</h1>
+
+<!-- 1. Número par o impar -->
+<section id="ej1">
+  <h2>1. Número par o impar</h2>
+  <input type="number" id="numParImpar" placeholder="Ingresa un número" />
+  <br />
+  <button onclick="numeroParImpar()">Verificar</button>
+  <div class="resultado" id="resultadoParImpar"></div>
+</section>
+
+<!-- 2. Días del mes -->
+<section id="ej2">
+  <h2>2. Días del mes</h2>
+  <select id="mesSeleccionado">
+    <option value="">Selecciona un mes</option>
+    <option value="1">Enero</option>
+    <option value="2">Febrero</option>
+    <option value="3">Marzo</option>
+    <option value="4">Abril</option>
+    <option value="5">Mayo</option>
+    <option value="6">Junio</option>
+    <option value="7">Julio</option>
+    <option value="8">Agosto</option>
+    <option value="9">Septiembre</option>
+    <option value="10">Octubre</option>
+    <option value="11">Noviembre</option>
+    <option value="12">Diciembre</option>
+  </select>
+  <br />
+  <button onclick="diasDelMes()">Mostrar días</button>
+  <div class="resultado" id="resultadoDiasMes"></div>
+</section>
+
+<!-- 3. Examen aprobado -->
+<section id="ej3">
+  <h2>3. Examen aprobado</h2>
+  <input type="number" id="notaExamen" placeholder="Ingresa la nota (0-10)" min="0" max="10" step="0.1" />
+  <br />
+  <button onclick="evaluarExamen()">Evaluar</button>
+  <div class="resultado" id="resultadoExamen"></div>
+</section>
+
+<!-- 4. Grupo de letras -->
+<section id="ej4">
+  <h2>4. Grupo de letras</h2>
+  <input type="text" id="letraIngresada" placeholder="Ingresa una letra" maxlength="1" />
+  <br />
+  <button onclick="grupoLetra()">Mostrar grupo</button>
+  <div class="resultado" id="resultadoGrupoLetra"></div>
+</section>
+
+<!-- 5. Piedra, papel o tijera con rondas -->
+<section id="ej5">
+  <h2>5. Piedra, papel o tijera - Juego con rondas</h2>
+  <label for="rondasJuego">Cantidad de rondas: </label>
+  <input type="number" id="rondasJuego" min="1" value="3" />
+  <br />
+  <button onclick="iniciarJuego()">Iniciar juego</button>
+
+  <div class="resultado" id="resultadoJuego" style="white-space: pre-line; margin-top: 15px;"></div>
+
+  <div id="botonesJuego" style="margin-top: 15px; display: none;">
+    <button onclick="jugar('piedra')">Piedra</button>
+    <button onclick="jugar('papel')">Papel</button>
+    <button onclick="jugar('tijera')">Tijera</button>
+  </div>
+</section>
+
+<script>
+  // 1. Número par o impar
+  function numeroParImpar() {
+    const input = document.getElementById('numParImpar').value;
+    const resultado = document.getElementById('resultadoParImpar');
+
+    if (input === '') {
+      resultado.textContent = 'Por favor ingresa un número.';
+      return;
+    }
+    const num = Number(input);
+    if (isNaN(num)) {
+      resultado.textContent = 'No es un número válido.';
+      return;
+    }
+
+    if (num % 2 === 0) {
+      resultado.textContent = `El número ${num} es PAR.`;
+    } else {
+      resultado.textContent = `El número ${num} es IMPAR.`;
+    }
+  }
+
+  // 2. Días del mes
+  function diasDelMes() {
+    const mes = document.getElementById('mesSeleccionado').value;
+    const resultado = document.getElementById('resultadoDiasMes');
+
+    if (!mes) {
+      resultado.textContent = 'Selecciona un mes.';
+      return;
+    }
+
+    const mesNum = Number(mes);
+    let dias;
+    if (mesNum === 2) {
+      dias = 28; // No se considera año bisiesto
+    } else if ([4, 6, 9, 11].includes(mesNum)) {
+      dias = 30;
+    } else {
+      dias = 31;
+    }
+    resultado.textContent = `El mes seleccionado tiene ${dias} días.`;
+  }
+
+  // 3. Examen aprobado
+  function evaluarExamen() {
+    const notaStr = document.getElementById('notaExamen').value;
+    const resultado = document.getElementById('resultadoExamen');
+
+    if (notaStr === '') {
+      resultado.textContent = 'Ingresa la nota del examen.';
+      return;
+    }
+
+    const nota = Number(notaStr);
+    if (isNaN(nota) || nota < 0 || nota > 10) {
+      resultado.textContent = 'Ingresa una nota válida entre 0 y 10.';
+      return;
+    }
+
+    if (nota > 7) {
+      resultado.textContent = 'Examen aprobado.';
+    } else if (nota > 4) {
+      resultado.textContent = 'Debe recuperar.';
+    } else {
+      resultado.textContent = 'Examen aplazado.';
+    }
+  }
+
+  // 4. Grupo de letras
+  function grupoLetra() {
+    const letra = document.getElementById('letraIngresada').value.toLowerCase();
+    const resultado = document.getElementById('resultadoGrupoLetra');
+
+    if (!letra.match(/^[a-z]$/)) {
+      resultado.textContent = 'Ingresa una sola letra válida.';
+      return;
+    }
+
+    if ("aeiou".includes(letra)) {
+      resultado.textContent = 'La letra pertenece al grupo A';
+    } else if ("bcdfg".includes(letra)) {
+      resultado.textContent = 'La letra pertenece al grupo B';
+    } else if ("hjklm".includes(letra)) {
+      resultado.textContent = 'La letra pertenece al grupo C';
+    } else if ("npqr".includes(letra)) {
+      resultado.textContent = 'La letra pertenece al grupo D';
+    } else {
+      resultado.textContent = 'La letra pertenece al grupo E';
+    }
+  }
+
+  // 5. Piedra, papel o tijera con rondas
+  let totalRondas = 0;
+  let rondaActual = 0;
+  let puntajeUsuario = 0;
+  let puntajeComputadora = 0;
+  let jugando = false;
+
+  function iniciarJuego() {
+    const inputRondas = document.getElementById('rondasJuego').value;
+    const resultado = document.getElementById('resultadoJuego');
+    const botones = document.getElementById('botonesJuego');
+
+    totalRondas = Number(inputRondas);
+    if (isNaN(totalRondas) || totalRondas < 1) {
+      resultado.textContent = 'Ingresa una cantidad válida de rondas (1 o más).';
+      return;
+    }
+
+    rondaActual = 0;
+    puntajeUsuario = 0;
+    puntajeComputadora = 0;
+    jugando = true;
+
+    resultado.textContent = 'Juego iniciado! Elige piedra, papel o tijera.';
+    botones.style.display = 'block';
+  }
+
+  function jugar(eleccionUsuario) {
+    if (!jugando) return;
+
+    rondaActual++;
+    const resultado = document.getElementById('resultadoJuego');
+    const opciones = ['piedra', 'papel', 'tijera'];
+    const eleccionComputadora = opciones[Math.floor(Math.random() * 3)];
+
+    let resultadoRonda = '';
+
+    if (eleccionUsuario === eleccionComputadora) {
+      resultadoRonda = 'Empate';
+    } else if (
+      (eleccionUsuario === 'piedra' && eleccionComputadora === 'tijera') ||
+      (eleccionUsuario === 'papel' && eleccionComputadora === 'piedra') ||
+      (eleccionUsuario === 'tijera' && eleccionComputadora === 'papel')
+    ) {
+      resultadoRonda = 'Ganaste esta ronda';
+      puntajeUsuario++;
+    } else {
+      resultadoRonda = 'La computadora ganó esta ronda';
+      puntajeComputadora++;
+    }
+
+    let texto = `Ronda: ${rondaActual} de ${totalRondas}\n` +
+      `Jugador: ${eleccionUsuario}\n` +
+      `Computadora: ${eleccionComputadora}\n` +
+      `${resultadoRonda}\n` +
+      `Puntaje: ${puntajeUsuario} (Jugador) - ${puntajeComputadora} (Computadora)\n` +
+      `Rondas restantes: ${totalRondas - rondaActual}`;
+
+    if (rondaActual === totalRondas) {
+      jugando = false;
+      texto += '\n\nJuego terminado.\n';
+
+      if (puntajeUsuario > puntajeComputadora) {
+        texto += '¡Ganaste el juego! 🎉';
+      } else if (puntajeUsuario < puntajeComputadora) {
+        texto += 'La computadora ganó el juego.';
+      } else {
+        texto += 'El juego terminó en empate.';
+      }
+
+      document.getElementById('botonesJuego').style.display = 'none';
+    }
+
+    resultado.textContent = texto;
+  }
+</script>
+
+</body>
+</html>
