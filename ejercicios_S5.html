@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ejercicios Interactivos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f4f4f4;
+    }
+    h2 {
+      color: #333;
+    }
+    .card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    input, button {
+      margin: 5px 0;
+      padding: 8px;
+      width: 100%;
+      max-width: 400px;
+      box-sizing: border-box;
+    }
+    .output {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #2d2d2d;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Ejercicio 1: Saludo a Nombres</h2>
+    <input type="text" id="nombresInput" placeholder="Ingrese nombres separados por espacios" />
+    <button onclick="saludarNombres()">Saludar</button>
+    <div class="output" id="saludoOutput"></div>
+  </div>
+
+  <div class="card">
+    <h2>Ejercicio 2: Número Menor</h2>
+    <input type="text" id="numerosMenorInput" placeholder="Ingrese números separados por espacios" />
+    <button onclick="mostrarMenor()">Mostrar menor</button>
+    <div class="output" id="menorOutput"></div>
+  </div>
+
+  <div class="card">
+    <h2>Ejercicio 3: Suma de Números</h2>
+    <input type="text" id="numerosSumaInput" placeholder="Ingrese números separados por espacios" />
+    <button onclick="sumarNumeros()">Sumar</button>
+    <div class="output" id="sumaOutput"></div>
+  </div>
+
+  <div class="card">
+    <h2>Ejercicio 4: Buscar Valor</h2>
+    <input type="text" id="valoresBuscarInput" placeholder="Ingrese valores separados por espacios" />
+    <input type="text" id="valorBuscarInput" placeholder="Ingrese valor a buscar" />
+    <button onclick="buscarValor()">Buscar</button>
+    <div class="output" id="buscarOutput"></div>
+  </div>
+
+  <div class="card">
+    <h2>Ejercicio 5: Índice de Valor</h2>
+    <input type="text" id="valoresIndiceInput" placeholder="Ingrese valores separados por espacios" />
+    <input type="text" id="valorIndiceInput" placeholder="Ingrese valor a buscar" />
+    <button onclick="buscarIndice()">Buscar Índice</button>
+    <div class="output" id="indiceOutput"></div>
+  </div>
+
+  <script>
+    function saludarNombres() {
+      const input = document.getElementById('nombresInput').value.trim();
+      const nombres = input.split(/\s+/);
+      const saludos = nombres.map(nombre => `¡Hola ${nombre}!`).join('\n');
+      document.getElementById('saludoOutput').textContent = saludos;
+    }
+
+    function mostrarMenor() {
+      const input = document.getElementById('numerosMenorInput').value.trim();
+      const numeros = input.split(/\s+/).map(Number);
+      const menor = Math.min(...numeros);
+      document.getElementById('menorOutput').textContent = `El número menor es: ${menor}`;
+    }
+
+    function sumarNumeros() {
+      const input = document.getElementById('numerosSumaInput').value.trim();
+      const numeros = input.split(/\s+/).map(Number);
+      const suma = numeros.reduce((acc, n) => acc + n, 0);
+      document.getElementById('sumaOutput').textContent = `La suma total es: ${suma}`;
+    }
+
+    function buscarValor() {
+      const valoresInput = document.getElementById('valoresBuscarInput').value.trim().split(/\s+/);
+      const valorBuscar = document.getElementById('valorBuscarInput').value.trim();
+      const encontrado = valoresInput.includes(valorBuscar);
+      document.getElementById('buscarOutput').textContent = encontrado
+        ? `El valor ${valorBuscar} se encuentra entre los valores originales`
+        : `El valor ${valorBuscar} NO se encuentra entre los valores originales`;
+    }
+
+    function buscarIndice() {
+      const valoresInput = document.getElementById('valoresIndiceInput').value.trim().split(/\s+/);
+      const valorBuscar = document.getElementById('valorIndiceInput').value.trim();
+      const indice = valoresInput.indexOf(valorBuscar);
+      document.getElementById('indiceOutput').textContent = indice !== -1
+        ? `El valor ${valorBuscar} se encuentra en el índice ${indice}`
+        : `El valor ${valorBuscar} no se encontró.`;
+    }
+  </script>
+
+</body>
+</html>
